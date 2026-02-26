@@ -40,7 +40,6 @@ def add_book(book: Book):
     return {"message": "New book added successfully.","id": new_id}
 
 
-search_cache = {}
 
 @app.get("/search")
 def search_books(q: str = Query(..., min_length=3, max_length=100), page: int = 1, size: int = 3):
@@ -49,10 +48,7 @@ def search_books(q: str = Query(..., min_length=3, max_length=100), page: int = 
 
 
     if cache_key in search_cache:
-        return {
-            "message": "Search completed successfully. (cache)",
-            **search_cache[cache_key]
-        }
+        return {"message": "Search completed successfully. (cache)", **search_cache[cache_key]}
 
     con = get_connection()
     cur = con.cursor()
